@@ -7,18 +7,24 @@
 	"scripts": {
 		"build": "tsc",
 		"start": "node --env-file=.env dist/index.js",
-		"dev": "node --import=./register.js --env-file=.env --watch src/index.ts"
+		"dev": "node --import=./register.js --env-file=.env --watch src/index.ts",
+		"generate": "drizzle-kit generate",
+		"migrate": "drizzle-kit migrate"
 	},
 	"keywords": [],
 	"author": "Gabriel Sistelos",
 	"license": "ISC",
 	"dependencies": {
-		"express": "^4.19.2"
+		"drizzle-orm": "^0.32.1",
+		"express": "^4.19.2",
+		"pg": "^8.12.0"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.8.3",
 		"@types/express": "^4.17.21",
 		"@types/node": "^20.14.12",
+		"@types/pg": "^8.11.6",
+		"drizzle-kit": "^0.23.0",
 		"ts-node": "^10.9.2",
 		"typescript": "^5.5.4"
 	}
