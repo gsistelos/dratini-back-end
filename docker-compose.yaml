@@ -1,0 +1,17 @@
+networks:
+  chit-chat-back-end:
+    name: chit-chat-back-end
+
+volumes:
+  postgres-data:
+    driver: local
+
+services:
+  postgres:
+    image: postgres
+    restart: always
+    env_file: .env
+    networks:
+      - chit-chat-back-end
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
