@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS "users" (
-	"id" uuid PRIMARY KEY NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"username" text NOT NULL,
 	"email" text NOT NULL,
-	"password" text NOT NULL,
+	"password" text DEFAULT 'test' NOT NULL,
 	CONSTRAINT "users_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint

@@ -1,5 +1,5 @@
 {
-  "id": "3885aa78-1130-4492-9a75-3f014553f896",
+  "id": "de94becf-d365-4d61-bf8a-dccceefdb184",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -12,7 +12,8 @@
           "name": "id",
           "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "username": {
           "name": "username",
@@ -30,7 +31,8 @@
           "name": "password",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "'test'"
         }
       },
       "indexes": {

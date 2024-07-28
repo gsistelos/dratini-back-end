@@ -1,9 +1,9 @@
 import { index, pgTable, text, uniqueIndex, uuid } from "drizzle-orm/pg-core";
 
-export const users = pgTable(
+export const usersTable = pgTable(
 	"users",
 	{
-		id: uuid("id").primaryKey(),
+		id: uuid("id").primaryKey().defaultRandom(),
 		username: text("username").notNull(),
 		email: text("email").unique().notNull(),
 		password: text("password").notNull(),
