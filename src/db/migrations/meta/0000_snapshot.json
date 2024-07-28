@@ -1,5 +1,5 @@
 {
-  "id": "de94becf-d365-4d61-bf8a-dccceefdb184",
+  "id": "dc14bbb0-1eb7-4e80-8a57-8bc538e0a8f8",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -31,8 +31,7 @@
           "name": "password",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "default": "'test'"
+          "notNull": true
         }
       },
       "indexes": {
