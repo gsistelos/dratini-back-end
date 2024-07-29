@@ -1,6 +1,7 @@
 import db from "../db/db.js";
 import { eq } from "drizzle-orm";
 import HttpError from "../utils/HttpError.js";
+import type { UserInput } from "../types/user.js";
 import { usersTable } from "../db/schema.js";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -35,11 +36,7 @@ export function validatePassword(password: string) {
 	}
 }
 
-export function validateUser(
-	username: string,
-	email: string,
-	password: string,
-) {
+export function validateUser({ username, email, password }: UserInput) {
 	validateUsername(username);
 	validateEmail(email);
 	validatePassword(password);

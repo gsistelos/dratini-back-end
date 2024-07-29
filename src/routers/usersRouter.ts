@@ -2,6 +2,7 @@ import asyncHandler from "../utils/asyncHandler.js";
 import db from "../db/db.js";
 import type { Request, Response } from "express";
 import { Router } from "express";
+import type { UserInput } from "../types/user.js";
 import { usersTable } from "../db/schema.js";
 import {
 	validateEmailExists,
@@ -13,16 +14,16 @@ const router = Router();
 router.post(
 	"/users",
 	asyncHandler(async (req: Request, res: Response) => {
-		const { username, email, password } = req.body;
+		const user: UserInput = req.body;
 
-		validateUser(username, email, password);
-		await validateEmailExists(email);
+		validateUser(user);
+		await validateEmailExists(user.email);
 
-		const user = await db
+		const ret = await db
 			.insert(usersTable)
-			.values({ username, email, password })
+			.values(user)
 			.returning({ username: usersTable.username, email: usersTable.email });
-		res.json(user);
+		res.json(ret);
 	}),
 );
 
