@@ -1,8 +1,8 @@
 import asyncHandler from "../utils/asyncHandler.js";
 import db from "../db/db.js";
 import { eq } from "drizzle-orm";
-import HttpError from "../errors/HttpError.js";
 import { hashPassword } from "../utils/hashPassword.js";
+import NotFoundError from "../errors/NotFoundError.js";
 import type { Request, Response } from "express";
 import { Router } from "express";
 import type { UserInput } from "../types/user.js";
@@ -47,7 +47,7 @@ router.get(
 			.from(usersTable);
 
 		if (users.length === 0) {
-			throw new HttpError(404, "No users found");
+			throw new NotFoundError("No users found");
 		}
 
 		res.json(users);
@@ -70,7 +70,7 @@ router.get(
 			.limit(1);
 
 		if (!user) {
-			throw new HttpError(404, "User not found");
+			throw new NotFoundError("User not found");
 		}
 
 		res.json(user);
@@ -91,7 +91,7 @@ router.patch(
 			.limit(1);
 
 		if (!user) {
-			throw new HttpError(404, "User not found");
+			throw new NotFoundError("User not found");
 		}
 
 		const updatedUser: UserInput = req.body;
