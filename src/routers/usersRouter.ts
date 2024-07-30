@@ -73,4 +73,47 @@ router.get(
 	}),
 );
 
+router.patch(
+	"/users/:id",
+	asyncHandler(async (req: Request, res: Response) => {
+		const [user] = await db
+			.select({
+				id: usersTable.id,
+				username: usersTable.username,
+				email: usersTable.email,
+			})
+			.from(usersTable)
+			.where(eq(usersTable.id, req.params.id))
+			.limit(1);
+
+		if (!user) {
+			throw new HttpError(404, "User not found");
+		}
+
+		const updatedUser: UserInput = req.body;
+
+		validateUser(updatedUser, true);
+
+		if (updatedUser.email && updatedUser.email !== user.email) {
+			await validateEmailExists(updatedUser.email);
+		}
+
+		if (updatedUser.password) {
+			updatedUser.password = hashPassword(updatedUser.password);
+		}
+
+		const [ret] = await db
+			.update(usersTable)
+			.set(updatedUser)
+			.where(eq(usersTable.id, req.params.id))
+			.returning({
+				id: usersTable.id,
+				username: usersTable.username,
+				email: usersTable.email,
+			});
+
+		res.json(ret);
+	}),
+);
+
 export default router;

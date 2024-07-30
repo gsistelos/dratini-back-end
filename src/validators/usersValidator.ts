@@ -6,8 +6,9 @@ import { usersTable } from "../db/schema.js";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export function validateUsername(username: string) {
+export function validateUsername(username: string, allowEmpty: boolean) {
 	if (!username) {
+		if (allowEmpty) return;
 		throw new HttpError(400, "'username' is required");
 	}
 
@@ -16,8 +17,9 @@ export function validateUsername(username: string) {
 	}
 }
 
-export function validateEmail(email: string) {
+export function validateEmail(email: string, allowEmpty: boolean) {
 	if (!email) {
+		if (allowEmpty) return;
 		throw new HttpError(400, "'email' is required");
 	}
 
@@ -26,8 +28,9 @@ export function validateEmail(email: string) {
 	}
 }
 
-export function validatePassword(password: string) {
+export function validatePassword(password: string, allowEmpty: boolean) {
 	if (!password) {
+		if (allowEmpty) return;
 		throw new HttpError(400, "'password' is required");
 	}
 
@@ -36,10 +39,13 @@ export function validatePassword(password: string) {
 	}
 }
 
-export function validateUser({ username, email, password }: UserInput) {
-	validateUsername(username);
-	validateEmail(email);
-	validatePassword(password);
+export function validateUser(
+	{ username, email, password }: UserInput,
+	allowEmptyFields = false,
+) {
+	validateUsername(username, allowEmptyFields);
+	validateEmail(email, allowEmptyFields);
+	validatePassword(password, allowEmptyFields);
 }
 
 export async function validateEmailExists(email: string) {
