@@ -1,12 +1,10 @@
 import AlreadyExistsError from "../errors/AlreadyExistsError.js";
-import db from "../db/db.js";
-import { eq } from "drizzle-orm";
 import FieldRequiredError from "../errors/FieldRequiredError.js";
 import InvalidEmailError from "../errors/InvalidEmailError.js";
 import MaxLengthError from "../errors/MaxLengthError.js";
 import MinLengthError from "../errors/MinLengthError.js";
+import { getUserByEmail } from "../services/usersService.js";
 import type { UserInput } from "../types/user.js";
-import { usersTable } from "../db/schema.js";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -61,11 +59,8 @@ export function validateUser(
 }
 
 export async function validateEmailExists(email: string) {
-	const user = await db
-		.select()
-		.from(usersTable)
-		.where(eq(usersTable.email, email));
-	if (user.length > 0) {
+	const user = await getUserByEmail(email);
+	if (!user) {
 		throw new AlreadyExistsError("email");
 	}
 }

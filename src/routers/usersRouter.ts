@@ -1,16 +1,15 @@
-import asyncHandler from "../utils/asyncHandler.js";
-import db from "../db/db.js";
-import { eq } from "drizzle-orm";
-import { hashPassword } from "../utils/hashPassword.js";
-import NotFoundError from "../errors/NotFoundError.js";
 import type { Request, Response } from "express";
 import { Router } from "express";
-import type { UserInput } from "../types/user.js";
-import { usersTable } from "../db/schema.js";
+import NotFoundError from "../errors/NotFoundError.js";
 import {
-	validateEmailExists,
-	validateUser,
-} from "../validators/usersValidator.js";
+	createUser,
+	getUserById,
+	getUsers,
+	updateUser,
+} from "../services/usersService.js";
+import type { UserInput } from "../types/user.js";
+import asyncHandler from "../utils/asyncHandler.js";
+import { validateUser } from "../validators/usersValidator.js";
 
 const router = Router();
 
@@ -20,15 +19,8 @@ router.post(
 		const user: UserInput = req.body;
 
 		validateUser(user);
-		await validateEmailExists(user.email);
 
-		user.password = hashPassword(user.password);
-
-		const ret = await db.insert(usersTable).values(user).returning({
-			id: usersTable.id,
-			username: usersTable.username,
-			email: usersTable.email,
-		});
+		const ret = await createUser(user);
 		res.json(ret);
 	}),
 );
@@ -36,16 +28,7 @@ router.post(
 router.get(
 	"/users",
 	asyncHandler(async (req: Request, res: Response) => {
-		const users = await db
-			.select({
-				id: usersTable.id,
-				username: usersTable.username,
-				email: usersTable.email,
-				createdAt: usersTable.createdAt,
-				updatedAt: usersTable.updatedAt,
-			})
-			.from(usersTable);
-
+		const users = await getUsers();
 		if (users.length === 0) {
 			throw new NotFoundError("No users found");
 		}
@@ -57,18 +40,7 @@ router.get(
 router.get(
 	"/users/:id",
 	asyncHandler(async (req: Request, res: Response) => {
-		const [user] = await db
-			.select({
-				id: usersTable.id,
-				username: usersTable.username,
-				email: usersTable.email,
-				createdAt: usersTable.createdAt,
-				updatedAt: usersTable.updatedAt,
-			})
-			.from(usersTable)
-			.where(eq(usersTable.id, req.params.id))
-			.limit(1);
-
+		const user = await getUserById(req.params.id);
 		if (!user) {
 			throw new NotFoundError("User not found");
 		}
@@ -80,45 +52,11 @@ router.get(
 router.patch(
 	"/users/:id",
 	asyncHandler(async (req: Request, res: Response) => {
-		const [user] = await db
-			.select({
-				id: usersTable.id,
-				username: usersTable.username,
-				email: usersTable.email,
-			})
-			.from(usersTable)
-			.where(eq(usersTable.id, req.params.id))
-			.limit(1);
-
-		if (!user) {
-			throw new NotFoundError("User not found");
-		}
-
 		const updatedUser: UserInput = req.body;
 
 		validateUser(updatedUser, true);
 
-		if (updatedUser.email && updatedUser.email !== user.email) {
-			await validateEmailExists(updatedUser.email);
-		}
-
-		if (updatedUser.password) {
-			updatedUser.password = hashPassword(updatedUser.password);
-		}
-
-		const [ret] = await db
-			.update(usersTable)
-			.set({
-				...updatedUser,
-				updatedAt: new Date(),
-			})
-			.where(eq(usersTable.id, req.params.id))
-			.returning({
-				id: usersTable.id,
-				username: usersTable.username,
-				email: usersTable.email,
-			});
-
+		const ret = await updateUser(req.params.id, updatedUser);
 		res.json(ret);
 	}),
 );
