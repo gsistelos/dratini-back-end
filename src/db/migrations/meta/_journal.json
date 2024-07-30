@@ -8,6 +8,13 @@
       "when": 1722188611056,
       "tag": "0000_yellow_odin",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1722316700078,
+      "tag": "0001_stiff_sabretooth",
+      "breakpoints": true
     }
   ]
 }

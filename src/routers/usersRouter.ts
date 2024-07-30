@@ -41,6 +41,8 @@ router.get(
 				id: usersTable.id,
 				username: usersTable.username,
 				email: usersTable.email,
+				createdAt: usersTable.createdAt,
+				updatedAt: usersTable.updatedAt,
 			})
 			.from(usersTable);
 
@@ -60,6 +62,8 @@ router.get(
 				id: usersTable.id,
 				username: usersTable.username,
 				email: usersTable.email,
+				createdAt: usersTable.createdAt,
+				updatedAt: usersTable.updatedAt,
 			})
 			.from(usersTable)
 			.where(eq(usersTable.id, req.params.id))
@@ -104,7 +108,10 @@ router.patch(
 
 		const [ret] = await db
 			.update(usersTable)
-			.set(updatedUser)
+			.set({
+				...updatedUser,
+				updatedAt: new Date(),
+			})
 			.where(eq(usersTable.id, req.params.id))
 			.returning({
 				id: usersTable.id,

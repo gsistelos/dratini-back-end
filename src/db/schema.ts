@@ -1,4 +1,11 @@
-import { index, pgTable, text, uniqueIndex, uuid } from "drizzle-orm/pg-core";
+import {
+	index,
+	pgTable,
+	text,
+	timestamp,
+	uniqueIndex,
+	uuid,
+} from "drizzle-orm/pg-core";
 
 export const usersTable = pgTable(
 	"users",
@@ -7,6 +14,8 @@ export const usersTable = pgTable(
 		username: text("username").notNull(),
 		email: text("email").unique().notNull(),
 		password: text("password").notNull(),
+		createdAt: timestamp("created_at").notNull().defaultNow(),
+		updatedAt: timestamp("updated_at").notNull().defaultNow(),
 	},
 	(table) => {
 		return {
