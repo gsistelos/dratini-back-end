@@ -60,7 +60,7 @@ export function validateUser(
 
 export async function validateEmailExists(email: string) {
 	const user = await getUserByEmail(email);
-	if (!user) {
+	if (user) {
 		throw new AlreadyExistsError("email");
 	}
 }
