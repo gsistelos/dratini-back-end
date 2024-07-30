@@ -1,7 +1,7 @@
 import asyncHandler from "../utils/asyncHandler.js";
 import db from "../db/db.js";
 import { eq } from "drizzle-orm";
-import HttpError from "../utils/HttpError.js";
+import HttpError from "../errors/HttpError.js";
 import { hashPassword } from "../utils/hashPassword.js";
 import type { Request, Response } from "express";
 import { Router } from "express";

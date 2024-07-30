@@ -1,6 +1,7 @@
 import express from "express";
-import HttpError from "./utils/HttpError.js";
+import type HttpError from "./errors/HttpError.js";
 import type { NextFunction, Request, Response } from "express";
+import NotFoundError from "./errors/NotFoundError.js";
 import usersRouter from "./routers/usersRouter.js";
 
 const app = express();
@@ -10,7 +11,7 @@ app.use(express.json());
 app.use("/api/v1", usersRouter);
 
 app.use("*", (req: Request, res: Response) => {
-	throw new HttpError(404, `Cannot ${req.method} ${req.originalUrl}`);
+	throw new NotFoundError(`Cannot ${req.method} ${req.originalUrl}`);
 });
 
 app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
