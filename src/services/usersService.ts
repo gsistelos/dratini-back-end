@@ -19,7 +19,12 @@ export async function createUser(user: UserInput) {
 
 	user.password = hashPassword(user.password);
 
-	return await db.insert(usersTable).values(user).returning(selectFields);
+	const [ret] = await db
+		.insert(usersTable)
+		.values(user)
+		.returning(selectFields);
+
+	return ret;
 }
 
 export async function getUsers() {
@@ -27,23 +32,23 @@ export async function getUsers() {
 }
 
 export async function getUserById(id: string) {
-	const [user] = await db
+	const [ret] = await db
 		.select(selectFields)
 		.from(usersTable)
 		.where(eq(usersTable.id, id))
 		.limit(1);
 
-	return user;
+	return ret;
 }
 
 export async function getUserByEmail(email: string) {
-	const [user] = await db
+	const [ret] = await db
 		.select(selectFields)
 		.from(usersTable)
 		.where(eq(usersTable.email, email))
 		.limit(1);
 
-	return user;
+	return ret;
 }
 
 export async function updateUser(id: string, updatedUser: UserInput) {
@@ -60,7 +65,7 @@ export async function updateUser(id: string, updatedUser: UserInput) {
 		updatedUser.password = hashPassword(updatedUser.password);
 	}
 
-	return db
+	const [ret] = await db
 		.update(usersTable)
 		.set({
 			...user,
@@ -68,4 +73,20 @@ export async function updateUser(id: string, updatedUser: UserInput) {
 		})
 		.where(eq(usersTable.id, id))
 		.returning(selectFields);
+
+	return ret;
+}
+
+export async function deleteUser(id: string) {
+	const user = await getUserById(id);
+	if (!user) {
+		throw new NotFoundError("User not found");
+	}
+
+	const [ret] = await db
+		.delete(usersTable)
+		.where(eq(usersTable.id, id))
+		.returning(selectFields);
+
+	return ret;
 }
