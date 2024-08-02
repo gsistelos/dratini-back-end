@@ -1,7 +1,7 @@
 import { SignJWT } from "jose";
 import type { User } from "../types/user.js";
 
-const jwtSecret = new TextEncoder().encode(process.env.JWT_SECRET);
+export const jwtSecret = new TextEncoder().encode(process.env.JWT_SECRET);
 
 export async function signJwt(user: User) {
 	const payload = {
