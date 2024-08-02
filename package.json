@@ -2,11 +2,11 @@
 	"name": "chit-chat-back-end",
 	"version": "1.0.0",
 	"description": "",
-	"main": "dist/index.js",
+	"main": "dist/src/index.js",
 	"type": "module",
 	"scripts": {
 		"build": "tsc",
-		"start": "node --env-file=.env dist/index.js",
+		"start": "node --env-file=.env dist/src/index.js",
 		"dev": "node --import=./register.js --env-file=.env --watch src/index.ts",
 		"generate": "drizzle-kit generate",
 		"migrate": "drizzle-kit migrate"
