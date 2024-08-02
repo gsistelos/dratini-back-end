@@ -1,5 +1,5 @@
 {
-	"name": "chit-chat-back-end",
+	"name": "mini-chat-back-end",
 	"version": "1.0.0",
 	"description": "",
 	"main": "dist/src/index.js",

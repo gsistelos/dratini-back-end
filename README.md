@@ -1,1 +1,1 @@
-# chit-chat-back-end
+# mini-chat-back-end

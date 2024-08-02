@@ -1,6 +1,6 @@
 networks:
-  chit-chat-back-end:
-    name: chit-chat-back-end
+  mini-chat-back-end:
+    name: mini-chat-back-end
 
 volumes:
   postgres-data:
@@ -12,7 +12,7 @@ services:
     restart: always
     env_file: .env
     networks:
-      - chit-chat-back-end
+      - mini-chat-back-end
     ports:
       - 5432:5432
     volumes:
