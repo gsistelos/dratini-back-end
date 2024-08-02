@@ -71,7 +71,7 @@ export async function updateUser(id: string, updatedUser: UserInput) {
 	const [ret] = await db
 		.update(usersTable)
 		.set({
-			...user,
+			...updatedUser,
 			updatedAt: new Date(),
 		})
 		.where(eq(usersTable.id, id))
