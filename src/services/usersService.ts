@@ -43,7 +43,10 @@ export async function getUserById(id: string) {
 
 export async function getUserByEmail(email: string) {
 	const [ret] = await db
-		.select(selectFields)
+		.select({
+			...selectFields,
+			password: usersTable.password,
+		})
 		.from(usersTable)
 		.where(eq(usersTable.email, email))
 		.limit(1);
