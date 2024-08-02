@@ -2,7 +2,7 @@ import { eq } from "drizzle-orm";
 import db from "../db/db.js";
 import { usersTable } from "../db/schema.js";
 import NotFoundError from "../errors/NotFoundError.js";
-import type { UserInput } from "../types/user.js";
+import type { UserInput } from "../types/UserInput.js";
 import { hashPassword } from "../utils/hashPassword.js";
 import { validateEmailExists } from "../validators/usersValidator.js";
 

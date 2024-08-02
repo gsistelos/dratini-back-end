@@ -11,7 +11,7 @@ import {
 	updateUser,
 } from "../services/usersService.js";
 import type AuthRequest from "../types/AuthRequest.js";
-import type { UserInput } from "../types/user.js";
+import type { UserInput } from "../types/UserInput.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import { validateUser } from "../validators/usersValidator.js";
 

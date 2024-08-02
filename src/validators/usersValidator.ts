@@ -4,7 +4,7 @@ import InvalidEmailError from "../errors/InvalidEmailError.js";
 import MaxLengthError from "../errors/MaxLengthError.js";
 import MinLengthError from "../errors/MinLengthError.js";
 import { getUserByEmail } from "../services/usersService.js";
-import type { UserInput } from "../types/user.js";
+import type { UserInput } from "../types/UserInput.js";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 

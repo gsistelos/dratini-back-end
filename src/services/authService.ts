@@ -1,5 +1,5 @@
 import { SignJWT } from "jose";
-import type { User } from "../types/user.js";
+import type { User } from "../types/User.js";
 
 export const jwtSecret = new TextEncoder().encode(process.env.JWT_SECRET);
 
