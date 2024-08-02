@@ -1,6 +1,6 @@
 import express from "express";
-import type HttpError from "./errors/HttpError.js";
 import type { NextFunction, Request, Response } from "express";
+import type HttpError from "./errors/HttpError.js";
 import NotFoundError from "./errors/NotFoundError.js";
 import usersRouter from "./routers/usersRouter.js";
 
