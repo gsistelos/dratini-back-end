@@ -1,0 +1,21 @@
+meta {
+  name: update_user
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{baseUrl}}/users/{{userId}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "username": "test_user2"
+  }
+}
+
+assert {
+  res.status: eq 200
+}
