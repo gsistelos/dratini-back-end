@@ -9,20 +9,24 @@ export async function jwtMiddleware(
 	res: Response,
 	next: NextFunction,
 ) {
-	const authHeader = req.headers.authorization;
-	if (!authHeader) {
-		throw new UnauthorizedError();
+	try {
+		const authHeader = req.headers.authorization;
+		if (!authHeader) {
+			throw new UnauthorizedError();
+		}
+
+		const [scheme, token] = authHeader.split(" ");
+		if (scheme !== "Bearer" || !token) {
+			throw new UnauthorizedError();
+		}
+
+		const { payload } = await jwtVerify(token, jwtSecret, {
+			algorithms: ["HS256"],
+		});
+
+		req.userId = payload.sub;
+		next();
+	} catch (err) {
+		next(err);
 	}
-
-	const [scheme, token] = authHeader.split(" ");
-	if (scheme !== "Bearer" || !token) {
-		throw new UnauthorizedError();
-	}
-
-	const { payload } = await jwtVerify(token, jwtSecret, {
-		algorithms: ["HS256"],
-	});
-
-	req.userId = payload.sub;
-	next();
 }
