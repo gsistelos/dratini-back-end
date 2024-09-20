@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
 	index,
 	pgTable,
@@ -24,3 +25,26 @@ export const usersTable = pgTable(
 		};
 	},
 );
+
+export const usersRelations = relations(usersTable, ({ many }) => ({
+	blocking: many(blocksTable),
+	blockedBy: many(blocksTable),
+}));
+
+export const blocksTable = pgTable("blocks", {
+	id: uuid("id").primaryKey().defaultRandom(),
+	blockerId: uuid("blocker_id").notNull(),
+	blockedId: uuid("blocked_id").notNull(),
+	createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const blocksRelations = relations(blocksTable, ({ one }) => ({
+	blocker: one(usersTable, {
+		fields: [blocksTable.blockerId],
+		references: [usersTable.id],
+	}),
+	blocked: one(usersTable, {
+		fields: [blocksTable.blockedId],
+		references: [usersTable.id],
+	}),
+}));

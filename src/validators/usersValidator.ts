@@ -1,9 +1,10 @@
 import AlreadyExistsError from "../errors/AlreadyExistsError.js";
 import FieldRequiredError from "../errors/FieldRequiredError.js";
 import InvalidEmailError from "../errors/InvalidEmailError.js";
+import InvalidUserIdError from "../errors/InvalidUserIdError.js";
 import MaxLengthError from "../errors/MaxLengthError.js";
 import MinLengthError from "../errors/MinLengthError.js";
-import { getUserByEmail } from "../services/usersService.js";
+import { getUserByEmail, getUserById } from "../services/usersService.js";
 import type { UserInput } from "../types/UserInput.js";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -62,5 +63,16 @@ export async function validateEmailExists(email: string) {
 	const user = await getUserByEmail(email);
 	if (user) {
 		throw new AlreadyExistsError("email");
+	}
+}
+
+export async function validateUserId(userId: string, field: string) {
+	if (!userId) {
+		throw new FieldRequiredError(field);
+	}
+
+	const user = await getUserById(userId);
+	if (!user) {
+		throw new InvalidUserIdError(field);
 	}
 }

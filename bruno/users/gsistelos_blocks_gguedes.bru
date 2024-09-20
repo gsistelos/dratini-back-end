@@ -1,0 +1,36 @@
+meta {
+  name: gsistelos_blocks_gguedes
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/blocks
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{gsistelosToken}}
+}
+
+body:json {
+  {
+    "blockerId": "{{gsistelosId}}",
+    "blockedId": "{{gguedesId}}"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.blockerId: isDefined
+  res.body.blockedId: isDefined
+  res.body.createdAt: isDefined
+  res.body.id: isDefined 
+}
+
+script:post-response {
+  const data = res.getBody()
+  
+  bru.setEnvVar("blockId", data.id)
+}

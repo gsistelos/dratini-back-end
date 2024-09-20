@@ -1,0 +1,28 @@
+meta {
+  name: login_gguedes
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "gguedes@gmail.com",
+    "password": "gguedes123"
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  const data = res.getBody()
+  
+  bru.setEnvVar("gguedesToken", data.token)
+}

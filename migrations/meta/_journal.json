@@ -15,6 +15,13 @@
       "when": 1722316700078,
       "tag": "0001_stiff_sabretooth",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1726795715636,
+      "tag": "0002_wooden_blindfold",
+      "breakpoints": true
     }
   ]
 }

@@ -1,0 +1,23 @@
+meta {
+  name: get_block
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/blocks/{{blockId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{gsistelosToken}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.blockerId: isDefined 
+  res.body.blockedId: isDefined 
+  res.body.createdAt: isDefined 
+  res.body.id: isDefined 
+}

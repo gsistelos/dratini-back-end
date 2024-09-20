@@ -1,0 +1,21 @@
+meta {
+  name: get_gsistelos
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/users/{{gsistelosId}}
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.id: isDefined
+  res.body.username: isDefined
+  res.body.email: isDefined
+  res.body.createdAt: isDefined
+  res.body.updatedAt: isDefined
+  res.body.password: isUndefined
+}

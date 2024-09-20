@@ -1,0 +1,19 @@
+meta {
+  name: delete_block
+  type: http
+  seq: 10
+}
+
+delete {
+  url: {{baseUrl}}/blocks/{{blockId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{gsistelosToken}}
+}
+
+assert {
+  res.status: eq 200
+}

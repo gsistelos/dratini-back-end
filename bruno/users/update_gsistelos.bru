@@ -1,0 +1,25 @@
+meta {
+  name: update_gsistelos
+  type: http
+  seq: 11
+}
+
+patch {
+  url: {{baseUrl}}/users/{{gsistelosId}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{gsistelosToken}}
+}
+
+body:json {
+  {
+    "username": "gsistelos2"
+  }
+}
+
+assert {
+  res.status: eq 200
+}

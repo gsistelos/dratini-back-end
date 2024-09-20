@@ -1,0 +1,19 @@
+meta {
+  name: delete_gsistelos
+  type: http
+  seq: 13
+}
+
+delete {
+  url: {{baseUrl}}/users/{{gsistelosId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{gsistelosToken}}
+}
+
+assert {
+  res.status: eq 200
+}
