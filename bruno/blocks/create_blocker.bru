@@ -1,0 +1,29 @@
+meta {
+  name: create_blocker
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/users
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "blocker",
+    "email": "blocker@gmail.com",
+    "password": "blocker123"
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  const data = res.getBody()
+  
+  bru.setEnvVar("blockerId", data.id)
+}

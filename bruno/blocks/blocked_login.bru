@@ -1,7 +1,7 @@
 meta {
-  name: login_gsistelos
+  name: blocked_login
   type: http
-  seq: 6
+  seq: 4
 }
 
 post {
@@ -12,17 +12,18 @@ post {
 
 body:json {
   {
-    "email": "gsistelos@gmail.com",
-    "password": "gsistelos123"
+    "email": "blocked@gmail.com",
+    "password": "blocked123"
   }
 }
 
 assert {
   res.status: eq 200
+  res.body.token: isDefined
 }
 
 script:post-response {
   const data = res.getBody()
   
-  bru.setEnvVar("gsistelosToken", data.token)
+  bru.setEnvVar("blockedToken", data.token)
 }

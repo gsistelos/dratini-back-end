@@ -1,7 +1,7 @@
 meta {
-  name: create_gguedes
+  name: create_user
   type: http
-  seq: 2
+  seq: 1
 }
 
 post {
@@ -12,9 +12,9 @@ post {
 
 body:json {
   {
-    "username": "gguedes",
-    "email": "gguedes@gmail.com",
-    "password": "gguedes123"
+    "username": "gsistelos",
+    "email": "gsistelos@gmail.com",
+    "password": "gsistelos123"
   }
 }
 
@@ -31,5 +31,5 @@ assert {
 script:post-response {
   const data = res.getBody()
   
-  bru.setEnvVar("gguedesId", data.id)
+  bru.setEnvVar("userId", data.id)
 }

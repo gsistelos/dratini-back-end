@@ -1,13 +1,19 @@
 meta {
-  name: get_gguedes
+  name: update_user
   type: http
   seq: 5
 }
 
-get {
-  url: {{baseUrl}}/users/{{gguedesId}}
-  body: none
-  auth: none
+patch {
+  url: {{baseUrl}}/users/{{userId}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "username": "gguedes2"
+  }
 }
 
 assert {
@@ -17,5 +23,4 @@ assert {
   res.body.email: isDefined
   res.body.createdAt: isDefined
   res.body.updatedAt: isDefined
-  res.body.password: isUndefined
 }

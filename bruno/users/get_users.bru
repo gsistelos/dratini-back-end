@@ -1,7 +1,7 @@
 meta {
   name: get_users
   type: http
-  seq: 3
+  seq: 2
 }
 
 get {
@@ -13,4 +13,5 @@ get {
 assert {
   res.status: in 200
   res.body: isArray
+  res.body.length: gt 0
 }

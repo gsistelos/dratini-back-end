@@ -1,0 +1,19 @@
+meta {
+  name: get_block
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/blocks/{{blockId}}
+  body: none
+  auth: inherit
+}
+
+assert {
+  res.status: eq 200
+  res.body.id: isDefined
+  res.body.blockerId: isDefined
+  res.body.blockedId: isDefined
+  res.body.createdAt: isDefined
+}

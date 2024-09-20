@@ -1,17 +1,13 @@
 meta {
   name: delete_block
   type: http
-  seq: 10
+  seq: 7
 }
 
 delete {
   url: {{baseUrl}}/blocks/{{blockId}}
   body: none
-  auth: bearer
-}
-
-auth:bearer {
-  token: {{gsistelosToken}}
+  auth: inherit
 }
 
 assert {

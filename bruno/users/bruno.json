@@ -1,6 +1,6 @@
 {
   "version": "1",
-  "name": "mini-chat-back-end",
+  "name": "users",
   "type": "collection",
   "ignore": [
     "node_modules",
