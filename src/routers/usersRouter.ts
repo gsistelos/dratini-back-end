@@ -4,6 +4,10 @@ import NotFoundError from "../errors/NotFoundError.js";
 import UnauthorizedError from "../errors/UnauthorizedError.js";
 import { jwtMiddleware } from "../middlewares/jwtMiddleware.js";
 import {
+	getBlocksByBlockedId,
+	getBlocksByBlockerId,
+} from "../services/blocksService.js";
+import {
 	createUser,
 	deleteUser,
 	getUserById,
@@ -50,6 +54,44 @@ router.get(
 		}
 
 		res.json(user);
+	}),
+);
+
+router.get(
+	"/users/:id/blocking",
+	jwtMiddleware,
+	asyncHandler(async (req: AuthRequest, res: Response) => {
+		const id = req.params.id;
+
+		if (req.userId !== id) {
+			throw new UnauthorizedError();
+		}
+
+		const blocks = await getBlocksByBlockerId(id);
+		if (!blocks) {
+			throw new NotFoundError("No blocks found");
+		}
+
+		res.json(blocks);
+	}),
+);
+
+router.get(
+	"/users/:id/blocked-by",
+	jwtMiddleware,
+	asyncHandler(async (req: AuthRequest, res: Response) => {
+		const id = req.params.id;
+
+		if (req.userId !== id) {
+			throw new UnauthorizedError();
+		}
+
+		const blocks = await getBlocksByBlockedId(id);
+		if (!blocks) {
+			throw new NotFoundError("No blocks found");
+		}
+
+		res.json(blocks);
 	}),
 );
 

@@ -39,6 +39,20 @@ export async function getBlockById(id: string) {
 	return ret;
 }
 
+export async function getBlocksByBlockerId(id: string) {
+	return await db
+		.select(selectFields)
+		.from(blocksTable)
+		.where(eq(blocksTable.blockerId, id));
+}
+
+export async function getBlocksByBlockedId(id: string) {
+	return await db
+		.select(selectFields)
+		.from(blocksTable)
+		.where(eq(blocksTable.blockedId, id));
+}
+
 export async function getBlockByUsersId(blockerId: string, blockedId: string) {
 	const [ret] = await db
 		.select(selectFields)
