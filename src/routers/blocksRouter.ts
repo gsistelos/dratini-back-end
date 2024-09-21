@@ -21,7 +21,7 @@ router.post(
 	asyncHandler(async (req: AuthRequest, res: Response) => {
 		const block: BlockInput = req.body;
 
-		await validateBlock(block);
+		validateBlock(block);
 
 		if (req.userId !== block.blockerId) {
 			throw new UnauthorizedError();

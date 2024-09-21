@@ -4,6 +4,7 @@ import { blocksTable } from "../db/schema.js";
 import NotFoundError from "../errors/NotFoundError.js";
 import type { BlockInput } from "../types/BlockInput.js";
 import { validateBlockExists } from "../validators/blocksValidator.js";
+import { validateUserId } from "../validators/usersValidator.js";
 
 const selectFields = {
 	id: blocksTable.id,
@@ -13,7 +14,12 @@ const selectFields = {
 };
 
 export async function createBlock(block: BlockInput) {
-	validateBlockExists(block.blockerId, block.blockedId);
+	const { blockerId, blockedId } = block;
+
+	await validateUserId(blockerId, "blockerId");
+	await validateUserId(blockedId, "blockedId");
+
+	await validateBlockExists(blockerId, blockedId);
 
 	const [ret] = await db
 		.insert(blocksTable)
