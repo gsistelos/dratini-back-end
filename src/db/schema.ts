@@ -33,8 +33,12 @@ export const usersRelations = relations(usersTable, ({ many }) => ({
 
 export const blocksTable = pgTable("blocks", {
 	id: uuid("id").primaryKey().defaultRandom(),
-	blockerId: uuid("blocker_id").notNull(),
-	blockedId: uuid("blocked_id").notNull(),
+	blockerId: uuid("blocker_id")
+		.references(() => usersTable.id, { onDelete: "cascade" })
+		.notNull(),
+	blockedId: uuid("blocked_id")
+		.references(() => usersTable.id, { onDelete: "cascade" })
+		.notNull(),
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 

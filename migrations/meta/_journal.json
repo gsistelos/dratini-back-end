@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1722188611056,
-      "tag": "0000_yellow_odin",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1722316700078,
-      "tag": "0001_stiff_sabretooth",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1726795715636,
-      "tag": "0002_wooden_blindfold",
+      "when": 1726886248481,
+      "tag": "0000_lowly_talisman",
       "breakpoints": true
     }
   ]
