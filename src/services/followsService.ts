@@ -4,6 +4,7 @@ import { followsTable } from "../db/schema.js";
 import type { FollowInput } from "../types/FollowInput.js";
 import { validateFollowExists } from "../validators/followsValidator.js";
 import { validateUserId } from "../validators/usersValidator.js";
+import NotFoundError from "../errors/NotFoundError.js";
 
 const selectFields = {
 	id: followsTable.id,
@@ -52,6 +53,20 @@ export async function getFollowByUsersId(
 			),
 		)
 		.limit(1);
+
+	return ret;
+}
+
+export async function deleteFollow(id: string) {
+	const follow = await getFollowById(id);
+	if (!follow) {
+		throw new NotFoundError("Follow not found");
+	}
+
+	const [ret] = await db
+		.delete(followsTable)
+		.where(eq(followsTable.id, id))
+		.returning(selectFields);
 
 	return ret;
 }

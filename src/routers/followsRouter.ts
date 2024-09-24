@@ -8,6 +8,9 @@ import type AuthRequest from "../types/AuthRequest.js";
 import type { FollowInput } from "../types/FollowInput.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import { validateFollow } from "../validators/followsValidator.js";
+import { getBlockByUsersId } from "../services/blocksService.js";
+import BlockedByError from "../errors/BlockedByError.js";
+import BlockingError from "../errors/BlockingError.js";
 
 const router = Router();
 
@@ -19,8 +22,20 @@ router.post(
 
 		validateFollow(follow);
 
-		if (req.userId !== follow.followerId) {
+		const { followerId, followedId } = follow;
+
+		if (req.userId !== followerId) {
 			throw new UnauthorizedError();
+		}
+
+		const blockedBy = await getBlockByUsersId(followedId, followerId);
+		if (blockedBy) {
+			throw new BlockedByError("follow");
+		}
+
+		const blocking = await getBlockByUsersId(followerId, followedId);
+		if (blocking) {
+			throw new BlockingError("follow");
 		}
 
 		const ret = await createFollow(follow);

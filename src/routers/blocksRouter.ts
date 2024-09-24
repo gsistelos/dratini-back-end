@@ -12,6 +12,10 @@ import type AuthRequest from "../types/AuthRequest.js";
 import type { BlockInput } from "../types/BlockInput.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import { validateBlock } from "../validators/blocksValidator.js";
+import {
+	deleteFollow,
+	getFollowByUsersId,
+} from "../services/followsService.js";
 
 const router = Router();
 
@@ -23,8 +27,20 @@ router.post(
 
 		validateBlock(block);
 
-		if (req.userId !== block.blockerId) {
+		const { blockerId, blockedId } = block;
+
+		if (req.userId !== blockerId) {
 			throw new UnauthorizedError();
+		}
+
+		const following = await getFollowByUsersId(blockerId, blockedId);
+		if (following) {
+			await deleteFollow(following.id);
+		}
+
+		const follower = await getFollowByUsersId(blockedId, blockerId);
+		if (follower) {
+			await deleteFollow(follower.id);
 		}
 
 		const ret = await createBlock(block);
