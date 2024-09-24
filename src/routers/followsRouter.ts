@@ -7,7 +7,7 @@ import { createFollow, getFollowById } from "../services/followsService.js";
 import type AuthRequest from "../types/AuthRequest.js";
 import type { FollowInput } from "../types/FollowInput.js";
 import asyncHandler from "../utils/asyncHandler.js";
-// import { validateFollow } from "../validators/followsValidator.js";
+import { validateFollow } from "../validators/followsValidator.js";
 
 const router = Router();
 
@@ -17,7 +17,7 @@ router.post(
 	asyncHandler(async (req: AuthRequest, res: Response) => {
 		const follow: FollowInput = req.body;
 
-		// validateFollow(follow);
+		validateFollow(follow);
 
 		if (req.userId !== follow.followerId) {
 			throw new UnauthorizedError();
