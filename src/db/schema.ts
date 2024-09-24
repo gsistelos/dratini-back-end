@@ -29,6 +29,8 @@ export const usersTable = pgTable(
 export const usersRelations = relations(usersTable, ({ many }) => ({
 	blocking: many(blocksTable),
 	blockedBy: many(blocksTable),
+	following: many(followsTable),
+	followers: many(followsTable),
 }));
 
 export const blocksTable = pgTable("blocks", {
@@ -49,6 +51,28 @@ export const blocksRelations = relations(blocksTable, ({ one }) => ({
 	}),
 	blocked: one(usersTable, {
 		fields: [blocksTable.blockedId],
+		references: [usersTable.id],
+	}),
+}));
+
+export const followsTable = pgTable("follows", {
+	id: uuid("id").primaryKey().defaultRandom(),
+	followerId: uuid("follower_id")
+		.references(() => usersTable.id, { onDelete: "cascade" })
+		.notNull(),
+	followedId: uuid("followed_id")
+		.references(() => usersTable.id, { onDelete: "cascade" })
+		.notNull(),
+	createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const followsRelations = relations(followsTable, ({ one }) => ({
+	follower: one(usersTable, {
+		fields: [followsTable.followerId],
+		references: [usersTable.id],
+	}),
+	followed: one(usersTable, {
+		fields: [followsTable.followedId],
 		references: [usersTable.id],
 	}),
 }));
