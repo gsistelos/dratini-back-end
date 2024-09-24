@@ -2,14 +2,14 @@
 
 ## Setup
 
-### Postgres
+Create `.env`; use `.env.example` as reference.
 
-Run `make` to run `postgres` in a docker container.
+Run `make` to start `postgres` and `express` containers.
 
-### Express
+## Development
 
-Run `pnpm install` to install npm packages.
+Initialize only a local `postgres` container with `docker compose up -d postgres`
 
-`pnpm generate` and `pnpm migrate` will generate migrations and migrate them to the database.
+Run `pnpm generate` and `pnpm migrate` to generate then apply migrations.
 
-Then, run `pnpm build` and `pnpm start` to run `express`. `pnpm dev` will run on watch mode.
+Then, run `pnpm dev` to run `express` on watch mode.
