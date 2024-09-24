@@ -8,14 +8,14 @@ import {
 	deleteBlock,
 	getBlockById,
 } from "../services/blocksService.js";
-import type AuthRequest from "../types/AuthRequest.js";
-import type { BlockInput } from "../types/BlockInput.js";
-import asyncHandler from "../utils/asyncHandler.js";
-import { validateBlock } from "../validators/blocksValidator.js";
 import {
 	deleteFollow,
 	getFollowByUsersId,
 } from "../services/followsService.js";
+import type AuthRequest from "../types/AuthRequest.js";
+import type { BlockInput } from "../types/BlockInput.js";
+import asyncHandler from "../utils/asyncHandler.js";
+import { validateBlock } from "../validators/blocksValidator.js";
 
 const router = Router();
 

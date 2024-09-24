@@ -1,10 +1,10 @@
 import { and, eq } from "drizzle-orm";
 import db from "../db/db.js";
 import { followsTable } from "../db/schema.js";
+import NotFoundError from "../errors/NotFoundError.js";
 import type { FollowInput } from "../types/FollowInput.js";
 import { validateFollowExists } from "../validators/followsValidator.js";
 import { validateUserId } from "../validators/usersValidator.js";
-import NotFoundError from "../errors/NotFoundError.js";
 
 const selectFields = {
 	id: followsTable.id,

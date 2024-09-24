@@ -1,16 +1,16 @@
 import type { Response } from "express";
 import { Router } from "express";
+import BlockedByError from "../errors/BlockedByError.js";
+import BlockingError from "../errors/BlockingError.js";
 import NotFoundError from "../errors/NotFoundError.js";
 import UnauthorizedError from "../errors/UnauthorizedError.js";
 import { jwtMiddleware } from "../middlewares/jwtMiddleware.js";
+import { getBlockByUsersId } from "../services/blocksService.js";
 import { createFollow, getFollowById } from "../services/followsService.js";
 import type AuthRequest from "../types/AuthRequest.js";
 import type { FollowInput } from "../types/FollowInput.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import { validateFollow } from "../validators/followsValidator.js";
-import { getBlockByUsersId } from "../services/blocksService.js";
-import BlockedByError from "../errors/BlockedByError.js";
-import BlockingError from "../errors/BlockingError.js";
 
 const router = Router();
 
