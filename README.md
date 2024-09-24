@@ -2,7 +2,7 @@
 
 ## Setup
 
-Create `.env`; use `.env.example` as reference.
+Create `.env`; use [.env.example](.env.example) as reference.
 
 Run `make` to start `postgres` and `express` containers.
 
