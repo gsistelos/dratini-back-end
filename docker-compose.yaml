@@ -17,3 +17,12 @@ services:
       - 5432:5432
     volumes:
       - postgres-data:/var/lib/postgresql/data
+
+  express:
+    build: .
+    restart: always
+    env_file: .env
+    networks:
+      - mini-chat-back-end
+    ports:
+      - 8000:8000
