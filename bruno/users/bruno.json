@@ -5,9 +5,5 @@
   "ignore": [
     "node_modules",
     ".git"
-  ],
-  "presets": {
-    "requestType": "http",
-    "requestUrl": "{{baseUrl}}"
-  }
+  ]
 }

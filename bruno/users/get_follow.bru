@@ -1,0 +1,19 @@
+meta {
+  name: get_follow
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/follows/{{followId}}
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.id: isDefined
+  res.body.followerId: isDefined
+  res.body.followedId: isDefined
+  res.body.createdAt: isDefined
+}

@@ -1,5 +1,5 @@
 meta {
-  name: create_blocker
+  name: create_gguedes
   type: http
   seq: 1
 }
@@ -12,18 +12,20 @@ post {
 
 body:json {
   {
-    "username": "blocker",
-    "email": "blocker@gmail.com",
-    "password": "blocker123"
+    "username": "gguedes",
+    "email": "gguedes@gmail.com",
+    "password": "gguedes123"
   }
 }
 
 assert {
   res.status: eq 200
+  res.body.id: isDefined 
 }
 
 script:post-response {
   const data = res.getBody()
-  
-  bru.setEnvVar("blockerId", data.id)
+  if (data.id) {
+      bru.setEnvVar("gguedesId", data.id)
+  }
 }

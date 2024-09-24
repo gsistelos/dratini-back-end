@@ -1,17 +1,18 @@
 meta {
-  name: login
+  name: create_gsistelos
   type: http
-  seq: 4
+  seq: 2
 }
 
 post {
-  url: {{baseUrl}}/login
+  url: {{baseUrl}}/users
   body: json
   auth: none
 }
 
 body:json {
   {
+    "username": "gsistelos",
     "email": "gsistelos@gmail.com",
     "password": "gsistelos123"
   }
@@ -19,11 +20,12 @@ body:json {
 
 assert {
   res.status: eq 200
-  res.body.token: isDefined
+  res.body.id: isDefined
 }
 
 script:post-response {
   const data = res.getBody()
-  
-  bru.setEnvVar("userToken", data.token)
+  if (data.id) {
+      bru.setEnvVar("gsistelosId", data.id)
+  }
 }

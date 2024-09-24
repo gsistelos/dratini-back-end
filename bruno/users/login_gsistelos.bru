@@ -1,0 +1,30 @@
+meta {
+  name: login_gsistelos
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "gsistelos@gmail.com",
+    "password": "gsistelos123"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.token: isDefined
+}
+
+script:post-response {
+  const data = res.getBody()
+  if (data.token) {
+      bru.setEnvVar("gsistelosToken", data.token)
+  }
+}

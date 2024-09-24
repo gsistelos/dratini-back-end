@@ -7,7 +7,11 @@ meta {
 delete {
   url: {{baseUrl}}/blocks/{{blockId}}
   body: none
-  auth: inherit
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{gsistelosToken}}
 }
 
 assert {

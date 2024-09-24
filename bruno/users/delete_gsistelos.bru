@@ -1,17 +1,17 @@
 meta {
-  name: delete_blocked
+  name: delete_gsistelos
   type: http
   seq: 11
 }
 
 delete {
-  url: {{baseUrl}}/users/{{blockedId}}
+  url: {{baseUrl}}/users/{{gsistelosId}}
   body: none
   auth: bearer
 }
 
 auth:bearer {
-  token: {{blockedToken}}
+  token: {{gsistelosToken}}
 }
 
 assert {

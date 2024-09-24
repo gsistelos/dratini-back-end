@@ -1,0 +1,34 @@
+meta {
+  name: gguedes_follows_gsistelos
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/follows
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{gguedesToken}}
+}
+
+body:json {
+  {
+    "followerId": "{{gguedesId}}",
+    "followedId": "{{gsistelosId}}"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.id: isDefined
+}
+
+script:post-response {
+  const data = res.getBody()
+  if (data.id) {
+      bru.setEnvVar("followId", data.id)
+  }
+}

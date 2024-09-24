@@ -1,13 +1,17 @@
 meta {
-  name: get_block_by_id
+  name: get_block
   type: http
-  seq: 6
+  seq: 8
 }
 
 get {
   url: {{baseUrl}}/blocks/{{blockId}}
   body: none
-  auth: inherit
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{gsistelosToken}}
 }
 
 assert {

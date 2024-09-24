@@ -1,0 +1,19 @@
+meta {
+  name: delete_gguedes
+  type: http
+  seq: 10
+}
+
+delete {
+  url: {{baseUrl}}/users/{{gguedesId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{gguedesToken}}
+}
+
+assert {
+  res.status: eq 200
+}

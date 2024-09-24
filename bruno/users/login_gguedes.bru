@@ -1,7 +1,7 @@
 meta {
-  name: blocked_login
+  name: login_gguedes
   type: http
-  seq: 4
+  seq: 3
 }
 
 post {
@@ -12,8 +12,8 @@ post {
 
 body:json {
   {
-    "email": "blocked@gmail.com",
-    "password": "blocked123"
+    "email": "gguedes@gmail.com",
+    "password": "gguedes123"
   }
 }
 
@@ -24,6 +24,7 @@ assert {
 
 script:post-response {
   const data = res.getBody()
-  
-  bru.setEnvVar("blockedToken", data.token)
+  if (data.token) {
+      bru.setEnvVar("gguedesToken", data.token)
+  }
 }
