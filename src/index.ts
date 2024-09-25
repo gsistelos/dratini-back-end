@@ -6,11 +6,16 @@ import authRouter from "./routers/authRouter.js";
 import blocksRouter from "./routers/blocksRouter.js";
 import followsRouter from "./routers/followsRouter.js";
 import usersRouter from "./routers/usersRouter.js";
+import { ExpressPrometheusMiddleware } from "@matteodisabatino/express-prometheus-middleware";
 
 const app = express();
 const port = process.env.PORT || 3000;
 
+const epm = new ExpressPrometheusMiddleware();
+
 app.use(express.json());
+app.use(epm.handler);
+
 app.use("/api/v1", authRouter);
 app.use("/api/v1", blocksRouter);
 app.use("/api/v1", followsRouter);
