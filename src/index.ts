@@ -5,20 +5,18 @@ import NotFoundError from "./errors/NotFoundError.js";
 import authRouter from "./routers/authRouter.js";
 import blocksRouter from "./routers/blocksRouter.js";
 import followsRouter from "./routers/followsRouter.js";
+import prometheusRouter from "./routers/prometheusRouter.js";
 import usersRouter from "./routers/usersRouter.js";
-import { ExpressPrometheusMiddleware } from "@matteodisabatino/express-prometheus-middleware";
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-const epm = new ExpressPrometheusMiddleware();
-
 app.use(express.json());
-app.use(epm.handler);
 
 app.use("/api/v1", authRouter);
 app.use("/api/v1", blocksRouter);
 app.use("/api/v1", followsRouter);
+app.use("/api/v1", prometheusRouter);
 app.use("/api/v1", usersRouter);
 
 app.use("*", (req: Request, res: Response) => {
