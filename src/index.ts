@@ -13,19 +13,23 @@ import usersRouter from "./routers/usersRouter.js";
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Middlewares
 app.use(express.json());
 app.use(prometheusMiddleware);
 
+// Routes
 app.use("/api/v1", authRouter);
 app.use("/api/v1", blocksRouter);
 app.use("/api/v1", followsRouter);
 app.use("/api/v1", prometheusRouter);
 app.use("/api/v1", usersRouter);
 
+// Not found endpoint
 app.use("*", (req: Request, res: Response) => {
 	throw new NotFoundError(`Cannot ${req.method} ${req.originalUrl}`);
 });
 
+// Error-handling middleware
 app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
 	err.status = err.status || 500;
 	res.status(err.status).json({ status: err.status, error: err.message });
