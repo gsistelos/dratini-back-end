@@ -2,6 +2,7 @@ import express from "express";
 import type { NextFunction, Request, Response } from "express";
 import type HttpError from "./errors/HttpError.js";
 import NotFoundError from "./errors/NotFoundError.js";
+import { prometheusMiddleware } from "./middlewares/prometheusMiddleware.js";
 import authRouter from "./routers/authRouter.js";
 import blocksRouter from "./routers/blocksRouter.js";
 import followsRouter from "./routers/followsRouter.js";
@@ -12,6 +13,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(prometheusMiddleware);
 
 app.use("/api/v1", authRouter);
 app.use("/api/v1", blocksRouter);

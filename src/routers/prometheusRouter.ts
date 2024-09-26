@@ -1,11 +1,9 @@
 import type { Request, Response } from "express";
 import { Router } from "express";
-import { Registry, collectDefaultMetrics } from "prom-client";
+import { collectDefaultMetrics, register } from "prom-client";
 import asyncHandler from "../utils/asyncHandler.js";
 
 const router = Router();
-
-const register = new Registry();
 
 collectDefaultMetrics({ register });
 
