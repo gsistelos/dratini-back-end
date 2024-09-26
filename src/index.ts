@@ -8,6 +8,7 @@ import blocksRouter from "./routers/blocksRouter.js";
 import followsRouter from "./routers/followsRouter.js";
 import prometheusRouter from "./routers/prometheusRouter.js";
 import usersRouter from "./routers/usersRouter.js";
+import { WebSocketServer } from "ws";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -30,6 +31,18 @@ app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
 	res.status(err.status).json({ status: err.status, error: err.message });
 });
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
 	console.log(`Server listening on port ${port}`);
+});
+
+const wss = new WebSocketServer({ server });
+
+wss.on("connection", (ws) => {
+	ws.on("error", console.error);
+
+	ws.on("message", (data) => {
+		console.log("received: %s", data);
+	});
+
+	ws.send("connected");
 });
