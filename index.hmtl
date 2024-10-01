@@ -12,7 +12,10 @@
     <div id="messages"></div>
 
     <script>
-        const ws = new WebSocket('ws://localhost:8000');
+		const userId = "3f6e30d5-b5a6-4312-abca-806fa8e08b8e";
+		const wsToken = "096ed577494bf4575bafc190fbbe65a3";
+
+		const ws = new WebSocket(`ws://localhost:8000?id=${userId}&token=${wsToken}`);
 
         ws.onopen = () => {
             console.log('Connected to the server');
