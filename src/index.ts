@@ -1,6 +1,5 @@
 import express from "express";
 import type { NextFunction, Request, Response } from "express";
-import { createClient } from "redis";
 import { WebSocketServer } from "ws";
 import type HttpError from "./errors/HttpError.js";
 import NotFoundError from "./errors/NotFoundError.js";
@@ -40,21 +39,15 @@ const server = app.listen(port, () => {
 	console.log(`Server listening on port ${port}`);
 });
 
-const redisClient = createClient();
-
-redisClient.on("error", (err) => {
-	console.log("Redis client error:", err);
-});
-
-await redisClient.connect();
-
 const wss = new WebSocketServer({ server });
 
 wss.on("connection", (ws) => {
-	ws.on("error", console.error);
+	ws.on("error", (err) => {
+		console.log(`Websocket error: ${err}`);
+	});
 
 	ws.on("message", (data) => {
-		console.log("received: %s", data);
+		console.log(`Received: ${data}`);
 	});
 
 	ws.send("connected");

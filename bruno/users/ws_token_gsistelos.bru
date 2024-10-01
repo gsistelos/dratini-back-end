@@ -1,0 +1,15 @@
+meta {
+  name: ws_token_gsistelos
+  type: http
+  seq: 15
+}
+
+get {
+  url: {{baseUrl}}/ws-token
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{gsistelosToken}}
+}

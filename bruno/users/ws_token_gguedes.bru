@@ -1,0 +1,15 @@
+meta {
+  name: ws_token_gguedes
+  type: http
+  seq: 14
+}
+
+get {
+  url: {{baseUrl}}/ws-token
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{gguedesToken}}
+}
