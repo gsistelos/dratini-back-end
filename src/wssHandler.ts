@@ -4,7 +4,7 @@ import redisClient from "./redisClient.js";
 function getQuery(url: string) {
 	const paramsIndex = url.indexOf("?");
 	if (paramsIndex === -1 || paramsIndex === url.length - 1) {
-		return undefined;
+		return [];
 	}
 
 	const params = url.slice(paramsIndex + 1);
@@ -15,10 +15,10 @@ function getQuery(url: string) {
 function getParams(url: string) {
 	const query = getQuery(url);
 	if (!query) {
-		return undefined;
+		return ["", ""];
 	}
 
-	const result = new Array<string>();
+	const result: string[] = [];
 
 	for (const part of query) {
 		const param = part.split("=");
@@ -30,14 +30,7 @@ function getParams(url: string) {
 }
 
 export async function wssHandler(ws: WebSocket, req: Request) {
-	const params = getParams(req.url);
-	if (!params) {
-		ws.close();
-		return;
-	}
-
-	const userId = params[0];
-	const wsToken = params[1];
+	const [userId, wsToken] = getParams(req.url);
 
 	const key = `ws-token-${userId}`;
 
