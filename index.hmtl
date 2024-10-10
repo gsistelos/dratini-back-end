@@ -1,40 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebSocket Client</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>WebSocket Client</title>
 </head>
+
 <body>
-    <h1>WebSocket Client</h1>
-    <input id="messageInput" type="text" placeholder="Type a message...">
-    <button id="sendButton">Send</button>
-    <div id="messages"></div>
+	<h1>WebSocket Client</h1>
+	<div>
+		<p id="connect-response"></p>
+		<input id="user-id-input" type="text" placeholder="Enter your user id">
+		<input id="ws-token-input" type="text" placeholder="Enter your WebSocket token">
+		<button id="connect-button">Connect</button>
+	</div>
+	<div>
+		<input id="message-input" type="text" placeholder="Type a message...">
+		<button id="send-button">Send</button>
+	</div>
+	<div id="messages"></div>
 
-    <script>
-		const userId = "3f6e30d5-b5a6-4312-abca-806fa8e08b8e";
-		const wsToken = "096ed577494bf4575bafc190fbbe65a3";
+	<script>
+		let ws;
 
-		const ws = new WebSocket(`ws://localhost:8000?id=${userId}&token=${wsToken}`);
+		document.getElementById('connect-button').onclick = () => {
+			const userId = document.getElementById('user-id-input').value;
+			const wsToken = document.getElementById('ws-token-input').value;
 
-        ws.onopen = () => {
-            console.log('Connected to the server');
-        };
+			const connectResponse = document.getElementById('connect-response');
+			connectResponse.innerHTML = 'Connecting to the server...';
 
-        ws.onmessage = (event) => {
-            const messagesDiv = document.getElementById('messages');
-            messagesDiv.innerHTML += `<p>${event.data}</p>`;
-        };
+			ws = new WebSocket(`ws://localhost:8000?id=${userId}&token=${wsToken}`);
 
-        document.getElementById('sendButton').onclick = () => {
-            const input = document.getElementById('messageInput');
-            ws.send(input.value);
-            input.value = '';
-        };
+			ws.onopen = () => {
+				const connectResponse = document.getElementById('connect-response');
+				connectResponse.innerHTML = 'Connected to the server';
+			};
 
-        ws.onclose = () => {
-            console.log('Disconnected from the server');
-        };
-    </script>
+			ws.onmessage = (event) => {
+				const messagesDiv = document.getElementById('messages');
+				messagesDiv.innerHTML += `<p>${event.data}</p>`;
+			};
+
+			ws.onclose = () => {
+				const connectResponse = document.getElementById('connect-response');
+				connectResponse.innerHTML = 'Disconnected from the server';
+			};
+		};
+
+		document.getElementById('send-button').onclick = () => {
+			const input = document.getElementById('message-input');
+			ws.send(input.value);
+			input.value = '';
+		};
+	</script>
 </body>
+
 </html>
