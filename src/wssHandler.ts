@@ -1,6 +1,8 @@
 import type { WebSocket } from "ws";
 import redisClient from "./redisClient.js";
 
+const regex = /(-|_)([a-z])/g;
+
 function getQuery(url: string) {
 	const paramsIndex = url.indexOf("?");
 	if (paramsIndex === -1 || paramsIndex === url.length - 1) {
@@ -15,22 +17,24 @@ function getQuery(url: string) {
 function getParams(url: string) {
 	const query = getQuery(url);
 	if (!query) {
-		return ["", ""];
+		return {};
 	}
 
-	const result: string[] = [];
+	const result: Record<string, string> = {};
 
 	for (const part of query) {
-		const param = part.split("=");
+		const [key, value] = part.split("=");
 
-		result.push(param[1]);
+		const camelCaseKey = key.replace(regex, (g) => g[1].toUpperCase());
+
+		result[camelCaseKey] = value;
 	}
 
 	return result;
 }
 
 export async function wssHandler(ws: WebSocket, req: Request) {
-	const [userId, wsToken] = getParams(req.url);
+	const { userId, wsToken } = getParams(req.url);
 
 	const key = `ws-token-${userId}`;
 
