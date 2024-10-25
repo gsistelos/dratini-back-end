@@ -1,14 +1,16 @@
 # mini-chat-back-end
 
-## Setup
+## Production
 
 Create `.env`; use [.env.example](.env.example) as reference.
 
-Run `make` to start `postgres` and `express` containers.
+Run `make` to start `postgres`, `redis` and `express` containers.
 
 ## Development
 
-Initialize only a local `postgres` container with `docker compose up -d postgres`
+Create `.env`; use [.env.example](.env.example) as reference.
+
+Initialize only local `postgres` and `redis` containers with `docker compose up -d postgres redis`
 
 Run `pnpm generate` and `pnpm migrate` to generate then apply migrations.
 

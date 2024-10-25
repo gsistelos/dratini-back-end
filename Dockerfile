@@ -1,4 +1,4 @@
-FROM node:22-slim AS base
+FROM node:23-slim AS base
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -20,7 +20,4 @@ FROM base
 COPY --from=prod-deps /app/node_modules /app/node_modules
 COPY --from=build /app/dist /app/dist
 
-RUN chmod +x wait-for-it.sh
-RUN chmod +x run.sh
-
-CMD [ "./wait-for-it.sh", "-t", "0", "postgres:5432", "--", "./run.sh" ]
+CMD [ "./scripts/wait-for-it.sh", "-t", "0", "postgres:5432", "--", "./scripts/run.sh" ]
