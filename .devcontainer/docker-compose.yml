@@ -1,0 +1,30 @@
+networks:
+  default:
+    driver: bridge
+
+volumes:
+  postgres-data:
+
+services:
+  dratini-back-end:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/workspaces/dratini-back-end:cached
+    networks:
+      - default
+    command: sleep infinity
+
+  postgres:
+    image: postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - default
+    env_file: ../.env
+
+  redis:
+    image: redis
+    networks:
+      - default
