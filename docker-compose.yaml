@@ -1,6 +1,6 @@
 networks:
-  mini-chat-back-end:
-    name: mini-chat-back-end
+  dratini-back-end:
+    name: dratini-back-end
 
 volumes:
   postgres-data:
@@ -12,7 +12,7 @@ services:
     restart: always
     env_file: .env
     networks:
-      - mini-chat-back-end
+      - dratini-back-end
     ports:
       - 5432:5432
     volumes:
@@ -22,7 +22,7 @@ services:
     image: redis
     restart: always
     networks:
-      - mini-chat-back-end
+      - dratini-back-end
     ports:
       - 6379:6379
 
@@ -31,6 +31,6 @@ services:
     restart: always
     env_file: .env
     networks:
-      - mini-chat-back-end
+      - dratini-back-end
     ports:
       - 8000:8000
