@@ -1,5 +1,5 @@
-import express from "express";
 import type { NextFunction, Request, Response } from "express";
+import express from "express";
 import { WebSocketServer } from "ws";
 import type HttpError from "./errors/HttpError.js";
 import NotFoundError from "./errors/NotFoundError.js";
